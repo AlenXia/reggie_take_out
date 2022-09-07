@@ -38,14 +38,14 @@ public class LoginCheckFilter implements Filter {
 
         // 如果不需要处理，直接放行
         if (check) {
-            log.info("本次请求{}不需要处理",requestURI);
+            log.info("本次请求{}不需要处理", requestURI);
             filterChain.doFilter(request, response);
             return;
         }
 
         // 判断登录状态，如果已经登录，则直接放行
         if (request.getSession().getAttribute("employee") != null) {
-            log.info("用户已登录，用户的id为：{}",request.getSession().getAttribute("employee"));
+            log.info("用户已登录，用户的id为：{}", request.getSession().getAttribute("employee"));
             filterChain.doFilter(request, response);
             return;
         }
@@ -59,7 +59,6 @@ public class LoginCheckFilter implements Filter {
 
     /**
      * 路径匹配，检查本次请求是否需要放行
-     *
      * @param urls
      * @param requestURI
      * @return
