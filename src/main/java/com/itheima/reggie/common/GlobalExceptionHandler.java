@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 异常处理方法
-     * @return
+     * @return R.error()
      */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException ex) {
