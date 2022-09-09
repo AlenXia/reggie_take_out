@@ -87,14 +87,14 @@ public class EmployeeController {
         // 设置初始密码123456，需要进行md5的加密处理
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
 
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
 
         // 获得当前登录用户的id
-        Long empId = (Long) request.getSession().getAttribute("employee");
+//        Long empId = (Long) request.getSession().getAttribute("employee");
 
-        employee.setCreateUser(empId);
-        employee.setUpdateUser(empId);
+//        employee.setCreateUser(empId);
+//        employee.setUpdateUser(empId);
 
         employeeService.save(employee);
 
@@ -118,14 +118,14 @@ public class EmployeeController {
         // 构造条件构造器
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper();
         // 添加过滤条件
-        queryWrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
+        queryWrapper.like(StringUtils.isNotEmpty(name), Employee::getName, name);
         // 添加排序条件
         queryWrapper.orderByDesc(Employee::getUpdateTime);
 
         // 执行查询,不需要接收
         employeeService.page(pageInfo, queryWrapper);
 
-        return R.success(pageInfo );
+        return R.success(pageInfo);
     }
 
     /**
@@ -134,14 +134,33 @@ public class EmployeeController {
      * @return
      */
     @PutMapping
-    public R<String> update(HttpServletRequest request,@RequestBody Employee employee) {
+    public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info(employee.toString());
 
-        Long empId = (Long)request.getSession().getAttribute("employee");
+        Long empId = (Long) request.getSession().getAttribute("employee");
         employee.setUpdateTime(LocalDateTime.now());
         employee.setUpdateUser(empId);
+
+        long id=Thread.currentThread().getId();
+        log.info("线程id为：{}",id);
+
         employeeService.updateById(employee);
 
         return R.success("员工信息修改成功");
+    }
+
+    /**
+     * 根据id来插询员工id
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id) {
+        log.info("根据id查询员工id...");
+        Employee employee = employeeService.getById(id);
+        if (employee != null) {
+            return R.success(employee);
+        }
+        return R.error("没有查询到对应员工的信息");
     }
 }
