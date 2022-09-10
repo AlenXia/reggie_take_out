@@ -113,7 +113,7 @@ public class DishController {
     public R<String> update(@RequestBody DishDto dishDto) {
         log.info(dishDto.toString());
 
-        dishService.saveWithFlavor(dishDto);
+        dishService.updateWithFlavor(dishDto);
 
         return R.success("修改菜品成功");
     }
