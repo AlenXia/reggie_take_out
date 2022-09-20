@@ -7,7 +7,10 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.2.197:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+#      这个是家里的linux docker用的ip
+#      url: jdbc:mysql://192.168.2.197:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+#      这个是学校里的linux docker用的ip
+      url: jdbc:mysql://127.17.0.1:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: 123456
 mybatis-plus:
