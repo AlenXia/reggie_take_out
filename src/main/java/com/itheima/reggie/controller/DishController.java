@@ -128,7 +128,10 @@ public class DishController {
 
         // 构造查询条件
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        queryWrapper.eq(
+                dish.getCategoryId() != null,
+                Dish::getCategoryId, 
+                dish.getCategoryId());
         // 添加条件，查询状态为1的菜品
         queryWrapper.eq(Dish::getStatus, 1);
         // 添加排序条件
