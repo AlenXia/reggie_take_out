@@ -72,7 +72,7 @@ public class SetmealController {
         BeanUtils.copyProperties(pageInfo, dtoPage, "records");
         List<Setmeal> records = pageInfo.getRecords();
 
-        List<SetmealDto> list=records.stream().map((item) -> {
+        List<SetmealDto> list = records.stream().map((item) -> {
             SetmealDto setmealDto = new SetmealDto();
             // 对象拷贝
             BeanUtils.copyProperties(item, setmealDto);
@@ -98,9 +98,26 @@ public class SetmealController {
      */
     @DeleteMapping
     public R<String> delete(@RequestParam List<Long> ids) {
-        log.info("ids:{}",ids);
+        log.info("ids:{}", ids);
 
         setmealService.removeWithDish(ids);
         return R.success("套餐数据删除成功");
+    }
+
+    /**
+     * 根据条件查询套餐数据
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Setmeal>> list(Setmeal setmeal) {
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(setmeal.getCategoryId() != null, Setmeal::getCategoryId, setmeal.getCategoryId());
+        queryWrapper.eq(setmeal.getStatus() != null, Setmeal::getStatus, setmeal.getStatus());
+        queryWrapper.orderByDesc(Setmeal::getUpdateTime);
+
+        List<Setmeal> list = setmealService.list(queryWrapper);
+
+        return R.success(list);
     }
 }
